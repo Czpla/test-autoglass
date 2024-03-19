@@ -9,7 +9,7 @@ namespace App.Core.Domain.Entities
     public class Product : Entity, ILogicallyDeletable
     {
         public string Description { get; set; } = default!;
-        public ProductSituation Situation { get; set; } = default!;
+        public string Situation { get; set; } = default!;
 
         public override Option<Exception> Validate()
         {
@@ -18,10 +18,15 @@ namespace App.Core.Domain.Entities
                     new ArgumentNullException(nameof(Description))
                 );
 
+            if (string.IsNullOrEmpty(Situation))
+                return Option<Exception>.Some(
+                    new ArgumentNullException(nameof(Situation))
+                );
+
             if (!Enum.IsDefined(typeof(ProductSituation), Situation))
-                    return Option<Exception>.Some(
-                        new ArgumentException("Invalid ProductSituation value", nameof(Situation))
-                    );
+                return Option<Exception>.Some(
+                    new ArgumentException("Invalid situation value", nameof(Situation))
+                );
 
             return Option<Exception>.None;
         }

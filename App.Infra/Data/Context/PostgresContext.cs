@@ -1,6 +1,7 @@
 ﻿namespace App.Infra.Data.Context
 {
     using Base;
+    using System;
     using Microsoft.EntityFrameworkCore;
 
     public class PostgresContext : ContextBase

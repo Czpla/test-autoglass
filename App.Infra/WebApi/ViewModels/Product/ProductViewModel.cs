@@ -2,13 +2,13 @@ namespace App.Infra.WebApi.ViewModels.Product
 {
     using System;
     using System.Text.Json.Serialization;
-
     using Core.Domain.Entities;
+    using Core.Domain.Constants;
 
     public class ProductViewModel
     {
         [JsonPropertyName("id")]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         [JsonPropertyName("description")]
         public string Description { get; set; } = default!;

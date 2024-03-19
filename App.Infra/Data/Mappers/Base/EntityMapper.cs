@@ -15,6 +15,7 @@ namespace App.Infra.Data.Mappers.Base
                 .HasColumnName("id")
                 .HasColumnType("integer")
                 .ValueGeneratedOnAdd()
+                .UseIdentityColumn()
                 .IsRequired();
 
             builder.Property(x => x.CreatedAt)

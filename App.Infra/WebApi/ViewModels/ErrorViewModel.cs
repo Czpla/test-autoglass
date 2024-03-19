@@ -1,5 +1,6 @@
-namespace App.Infra.WebApi.ViewModels.User
+namespace App.Infra.WebApi.ViewModels
 {
+    using System;
     using System.Text.Json.Serialization;
 
     public class ErrorViewModel

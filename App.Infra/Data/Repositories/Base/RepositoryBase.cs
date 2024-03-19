@@ -1,6 +1,7 @@
 namespace App.Infra.Data.Repositories.Base
 {
     using System;
+    using System.Linq;
     using System.Collections.Generic;
     using System.Threading.Tasks; 
     using Shared.Either;
@@ -60,13 +61,13 @@ namespace App.Infra.Data.Repositories.Base
                 .ToListAsync();
         }
 
-        public virtual async Task<TEntity?> GetByIdAsync(Guid id)
+        public virtual async Task<TEntity?> GetByIdAsync(int id)
         {
             return await _context.Set<TEntity>()
                 .FindAsync(id);
         }
 
-        public virtual async Task<TEntity?> GetByIdAsNoTrackingAsync(Guid id)
+        public virtual async Task<TEntity?> GetByIdAsNoTrackingAsync(int id)
         {
             return await _context.Set<TEntity>()
                 .AsNoTracking()
@@ -83,7 +84,7 @@ namespace App.Infra.Data.Repositories.Base
 
         public virtual async Task<TEntity> AddOrUpdateAsync(TEntity entity)
         {
-            if (entity.Id.Equals(default(Guid)))
+            if (entity.Id.Equals(default(int)))
                 await AddAsync(entity);
             else
                 await UpdateAsync(entity);
@@ -101,7 +102,7 @@ namespace App.Infra.Data.Repositories.Base
             return persistedEntities;
         }
 
-        public async Task<Option<Exception>> Delete(Guid id)
+        public async Task<Option<Exception>> Delete(int id)
         {
             TEntity? entity = await GetByIdAsync(id);
 
@@ -113,7 +114,7 @@ namespace App.Infra.Data.Repositories.Base
             return Option<Exception>.None;
         }
 
-        public async Task<Option<Exception>> Delete(IEnumerable<Guid> ids)
+        public async Task<Option<Exception>> Delete(IEnumerable<int> ids)
         {
             List<TEntity> entities = new();
 
@@ -132,7 +133,7 @@ namespace App.Infra.Data.Repositories.Base
             return Option<Exception>.None;
         }
 
-        public Task<bool> HasAny(Guid id)
+        public Task<bool> HasAny(int id)
         {
             return _context
                 .Set<TEntity>()
@@ -155,7 +156,7 @@ namespace App.Infra.Data.Repositories.Base
             return Result<IEnumerable<TEntity>, Exception>.Ok(entities);
         }
 
-        protected virtual async Task UpdateAsync(TEntity entity)
+        public virtual async Task UpdateAsync(TEntity entity)
         {
             InternalUpdate(entity);
             await _context.SaveChangesAsync();
@@ -195,7 +196,7 @@ namespace App.Infra.Data.Repositories.Base
 
         private async Task Delete(TEntity entity)
         {
-            if (entity is IPhysicallyDeletable)
+            if (entity is ILogicallyDeletable)
                 _context.Set<TEntity>().Remove(entity);
             else
                 entity.Delete();

@@ -1,6 +1,8 @@
 namespace App.Infra.WebApi.DependencyInjection
 {
     using Base;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Configuration;
     using Core.Business;
     using Infra.Data.Repositories;
     using Core.Domain.Repositories;
