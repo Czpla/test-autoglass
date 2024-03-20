@@ -30,6 +30,11 @@ namespace App.Core.Business
                 Id = result.Id,
                 Description = result.Description,
                 Situation = result.Situation,
+                ManufacturingDate = result.ManufacturingDate,
+                ExpirationDate = result.ExpirationDate,
+                SupplierCode = result.SupplierCode,
+                SupplierDescription = result.SupplierDescription,
+                SupplierCnpj = result.SupplierCnpj,
             };
         }
 
@@ -38,20 +43,23 @@ namespace App.Core.Business
             var result = await _repository.GetByIdAsync(input.Id);
 
             if (result is null)
-                return new Exception("Product not found");
+                return new Exception("Product not found.");
 
             return new GetProductOutputDto
             {
                 Id = result.Id,
                 Description = result.Description,
                 Situation = result.Situation,
+                ManufacturingDate = result.ManufacturingDate,
+                ExpirationDate = result.ExpirationDate,
+                SupplierCode = result.SupplierCode,
+                SupplierDescription = result.SupplierDescription,
+                SupplierCnpj = result.SupplierCnpj,
             };
         }
 
         public async Task<Result<UpdateProductOutputDto, Exception>> Update(UpdateProductInputDto input)
         {
-            // TODO: Não precisar atualizar todos os campos
-            
             Product product = input;
 
             var productValidation = product.Validate();
@@ -63,24 +71,52 @@ namespace App.Core.Business
 
             return new UpdateProductOutputDto
             {
-                Id = product.Id,
-                Description = product.Description,
-                Situation = product.Situation,
+                Id = input.Id,
+                Description = input.Description,
+                Situation = input.Situation,
+                ManufacturingDate = input.ManufacturingDate,
+                ExpirationDate = input.ExpirationDate,
+                SupplierCode = input.SupplierCode,
+                SupplierDescription = input.SupplierDescription,
+                SupplierCnpj = input.SupplierCnpj,
             };
         }
 
-        public async Task<Result<GetPaginatedProductOutputDto, Exception>> GetPaginated(GetPaginatedProductInputDto input)
+        public async Task<Result<DeleteProductOutputDto, Exception>> Delete(DeleteProductInputDto input)
         {
-            var result = await _repository.GetPaginated(1, 5);
+            var result = await _repository.UpdateSituationToInactive(input);
+
+            if (result is null)
+                return new Exception("Product not found.");
+
+            return new DeleteProductOutputDto
+            {
+                Id = result.Id,
+                Description = result.Description,
+                Situation = result.Situation,
+                ManufacturingDate = result.ManufacturingDate,
+                ExpirationDate = result.ExpirationDate,
+                SupplierCode = result.SupplierCode,
+                SupplierDescription = result.SupplierDescription,
+                SupplierCnpj = result.SupplierCnpj,
+            };
+        }
+
+        public async Task<Result<GetPaginatedByProductOutputDto, Exception>> GetPaginatedBy(GetPaginatedByProductInputDto input)
+        {
+            var result = await _repository.GetPaginatedBy(1, 5);
 
             Console.WriteLine(result);
 
-            return new Exception("Not implemented");
+            if (result is null)
+                return new Exception("Products not found.");
 
-            // return new GetPaginatedProductOutputDto
+            return new Exception("Method not implemented.");
+
+            // return new GetPaginatedByProductOutputDto
             // {
-            //     Products = result.Products,
-            //     Total = result.Total,
+            //     Products = result,
+            //     Total = result.Count(),
             // };
         }
     }

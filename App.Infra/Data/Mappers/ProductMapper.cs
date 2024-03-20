@@ -23,6 +23,31 @@ namespace App.Infra.Data.Mappers
                 .HasColumnName("situation")
                 .HasColumnType("varchar(10)")
                 .IsRequired();
+
+            builder.Property(x => x.ManufacturingDate)
+                .HasColumnName("manufacturing_date")
+                .HasColumnType("date")
+                .IsRequired(false);
+
+            builder.Property(x => x.ExpirationDate)
+                .HasColumnName("expiration_date")
+                .HasColumnType("date")
+                .IsRequired(false);
+
+            builder.Property(x => x.SupplierCode)
+                .HasColumnName("supplier_code")
+                .HasColumnType("int")
+                .IsRequired(false);
+
+            builder.Property(x => x.SupplierDescription)
+                .HasColumnName("supplier_description")
+                .HasColumnType("varchar(255)")
+                .IsRequired(false);
+
+            builder.Property(x => x.SupplierCnpj)
+                .HasColumnName("supplier_cnpj")
+                .HasColumnType("varchar(14)")
+                .IsRequired(false);
         }
     }
 }

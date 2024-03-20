@@ -1,5 +1,3 @@
-#nullable enable
-
 namespace App.Core.Domain.Entities.Base
 {
     using Shared.Either;
@@ -47,5 +45,3 @@ namespace App.Core.Domain.Entities.Base
         public virtual Option<Exception> Validate() => Option<Exception>.None;
     }
 }
-
-#nullable restore

@@ -10,6 +10,12 @@ namespace App.Core.Domain.Entities
     {
         public string Description { get; set; } = default!;
         public string Situation { get; set; } = default!;
+        public DateTime? ManufacturingDate { get; set; }
+        public DateTime? ExpirationDate { get; set; }
+        public int? SupplierCode { get; set; }
+        public string? SupplierDescription { get; set; }
+        public string? SupplierCnpj { get; set; }
+ 
 
         public override Option<Exception> Validate()
         {
@@ -25,47 +31,18 @@ namespace App.Core.Domain.Entities
 
             if (!Enum.IsDefined(typeof(ProductSituation), Situation))
                 return Option<Exception>.Some(
-                    new ArgumentException("Invalid situation value", nameof(Situation))
+                    new ArgumentException("Invalid situation value.", nameof(Situation))
+                );
+
+            if (ManufacturingDate.HasValue && ExpirationDate.HasValue && ManufacturingDate >= ExpirationDate)
+                return Option<Exception>.Some(
+                    new ArgumentException("Manufacturing date cannot be greater than or equal to expiration date.")
                 );
 
             return Option<Exception>.None;
         }
 
-        // public void Delete()
-        // {
-        //     Status = Status.Deleted;
-        // }
-
-        // public Option<Exception> Delete(string deletedBy)
-        // {
-        //     if (string.IsNullOrEmpty(deletedBy))
-        //         return Option<Exception>.Some(
-        //             new ArgumentNullException(nameof(deletedBy))
-        //         );
-
-        //     DeletedBy = deletedBy;
-        //     Delete();
-        //     return Option<Exception>.None;
-        // }
-
-        // public void Modify()
-        // {
-        //     Status = Status.Modified;
-        // }
-
-        // public Option<Exception> Modify(string updatedBy)
-        // {
-        //     if (string.IsNullOrEmpty(updatedBy))
-        //         return Option<Exception>.Some(
-        //             new ArgumentNullException(nameof(updatedBy))
-        //         );
-
-        //     UpdatedBy = updatedBy;
-        //     Modify();
-        //     return Option<Exception>.None;
-        // }
-
         public override string ToString()
-            => $"{base.ToString()}, Description: {Description}, Situation: {Situation}";
+            => $"{base.ToString()}, Description: {Description}, Situation: {Situation}, ManufacturingDate: {ManufacturingDate}, ExpirationDate: {ExpirationDate}, SupplierCode: {SupplierCode}, SupplierDescription: {SupplierDescription}, SupplierCnpj: {SupplierCnpj}";
     }
 }

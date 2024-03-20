@@ -7,6 +7,7 @@ namespace App.Infra.WebApi.Controllers
     using ControllerBase = Base.ControllerBase;
     using Core.Domain.Business.Product;
     using Core.Domain.Business.Product.DataTransferObjects;
+    using System;
 
     [ApiController]
     [Route("product")]
@@ -54,27 +55,27 @@ namespace App.Infra.WebApi.Controllers
             );
         }
         
-        // [HttpDelete("{id}")]
-        // public async Task<IActionResult> Delete([FromRoute] int id)
-        // {
-        //     var deleted = await _productBusiness.Delete(new DeleteProductInputDto { Id = id });
-        
-        //     return deleted.Match(
-        //         ok: output => Ok<ProductViewModel>(output),
-        //         error: error => BadRequest<ErrorViewModel>(error)
-        //     );
-        // }
-
-        [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] GetPaginatedProductInputDto input)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var product = await _productBusiness.GetPaginated(input);
+            var deleted = await _productBusiness.Delete(new DeleteProductInputDto { Id = id });
         
-            return product.Match(
+            return deleted.Match(
                 ok: output => Ok<ProductViewModel>(output),
                 error: error => BadRequest<ErrorViewModel>(error)
             );
         }
+
+        // [HttpGet]
+        // public async Task<IActionResult> Get([FromQuery] GetPaginatedByProductInputDto input)
+        // {
+        //     var product = await _productBusiness.GetPaginatedBy(input);
+
+        //     return product.Match(
+        //         ok: output => Ok<ProductViewModel>(output),
+        //         error: error => BadRequest<ErrorViewModel>(error)
+        //     );
+        // }
 
     }
 }

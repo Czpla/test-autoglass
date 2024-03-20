@@ -16,13 +16,33 @@ namespace App.Infra.WebApi.ViewModels.Product
         [JsonPropertyName("situation")]
         public string Situation { get; set; } = default!;
 
+        [JsonPropertyName("manufacturingDate")]
+        public DateTime? ManufacturingDate { get; set; }
+
+        [JsonPropertyName("expirationDate")]
+        public DateTime? ExpirationDate { get; set; }
+
+        [JsonPropertyName("supplierCode")]
+        public int? SupplierCode { get; set; }
+
+        [JsonPropertyName("supplierDescription")]
+        public string? SupplierDescription { get; set; }
+
+        [JsonPropertyName("supplierCnpj")]
+        public string? SupplierCnpj { get; set; }
+
         public static implicit operator ProductViewModel(Product product)
         {
             return new ProductViewModel
             {
                 Id = product.Id,
                 Description = product.Description,
-                Situation = product.Situation
+                Situation = product.Situation,
+                ManufacturingDate = product.ManufacturingDate,
+                ExpirationDate = product.ExpirationDate,
+                SupplierCode = product.SupplierCode,
+                SupplierDescription = product.SupplierDescription,
+                SupplierCnpj = product.SupplierCnpj
             };
         }
     }

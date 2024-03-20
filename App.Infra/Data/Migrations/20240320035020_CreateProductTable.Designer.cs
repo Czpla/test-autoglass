@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(PostgresContext))]
-    [Migration("20240319003137_CreateProductTable")]
+    [Migration("20240320035020_CreateProductTable")]
     partial class CreateProductTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,10 +51,30 @@ namespace Data.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnName("description");
 
+                    b.Property<DateTime?>("ExpirationDate")
+                        .HasColumnType("date")
+                        .HasColumnName("expiration_date");
+
+                    b.Property<DateTime?>("ManufacturingDate")
+                        .HasColumnType("date")
+                        .HasColumnName("manufacturing_date");
+
                     b.Property<string>("Situation")
                         .IsRequired()
                         .HasColumnType("varchar(10)")
                         .HasColumnName("situation");
+
+                    b.Property<string>("SupplierCnpj")
+                        .HasColumnType("varchar(14)")
+                        .HasColumnName("supplier_cnpj");
+
+                    b.Property<int?>("SupplierCode")
+                        .HasColumnType("int")
+                        .HasColumnName("supplier_code");
+
+                    b.Property<string>("SupplierDescription")
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("supplier_description");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp without time zone")
